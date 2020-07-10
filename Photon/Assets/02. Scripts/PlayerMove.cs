@@ -1,8 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
-public class PlayerMove : MonoBehaviour
+using Photon.Pun;
+public class PlayerMove : MonoBehaviourPun
 {
     public float speed = 5.0f; //이동속도
     CharacterController cc; //캐릭터컨트롤러 컴포넌트
@@ -19,6 +19,14 @@ public class PlayerMove : MonoBehaviour
     }
 
     void Update()
+    {
+
+        //이 사용자가 나라면 움직이고 아니면 움직이지 말아라
+        //포톤뷰로 확인이 가능함
+        if (!photonView.IsMine) return;
+        MovePlayer();
+   }
+    private void MovePlayer()
     {
         //플레이어 이동
         float h = Input.GetAxis("Horizontal");
@@ -48,3 +56,4 @@ public class PlayerMove : MonoBehaviour
         cc.Move(dir * speed * Time.deltaTime);
     }
 }
+
